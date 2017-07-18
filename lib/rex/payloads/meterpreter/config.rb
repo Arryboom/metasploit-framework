@@ -124,7 +124,8 @@ private
     elsif url.start_with?('dns')
       ns_server = to_str(opts[:nhost] || '', NS_NAME_SIZE) 
       transport_data << ns_server
-      pack << 'A*'
+      transport_data << "\x00\x30"
+      pack << 'A*v'
     end
 
     # return the packed transport information
