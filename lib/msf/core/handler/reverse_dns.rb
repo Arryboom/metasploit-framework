@@ -243,9 +243,10 @@ module ReverseDns
                     answer = conn.read(1)
                     puts("GOT #{answer.to_s}")
                     
-                    if answer == "1"
+                    if answer == "\x01"
                       need_connection = true
                       break
+		    end
                     
                     end
                   end
