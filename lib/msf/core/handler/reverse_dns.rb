@@ -124,7 +124,6 @@ module ReverseDns
         begin          
           
           stime = Time.now.to_i
-          puts("NEED #{need_connection}")
           if (need_connection == true)       
             
             while (stime + ctimeout > Time.now.to_i)
@@ -184,7 +183,6 @@ module ReverseDns
                   
                   #First connect,  stage is needed? (or it not the first session and stage alredy there..
                   #    or it is a stageless payload)
-                  puts("STAGE #{need_stage}")
                   if (need_stage == true and self.payload_type != Msf::Payload::Type::Single) 
                     if respond_to? :include_send_uuid
                       if include_send_uuid
@@ -238,15 +236,14 @@ module ReverseDns
                   # Session validation #LOGIC IS HERE777#
                   loop do
                     begin 
-                    Rex::ThreadSafe.sleep(1)
-                    conn.put("?")
-                    answer = conn.read(1)
-                    puts("GOT #{answer.to_s}")
-                    
-                    if answer == "\x01"
-                      need_connection = true
-                      break
-		    end
+                      Rex::ThreadSafe.sleep(1)
+                      conn.put("?")
+                      answer = conn.read(1)
+                      
+                      if answer == "\x01"
+                        need_connection = true
+                        break
+                      end
                     
                     end
                   end
