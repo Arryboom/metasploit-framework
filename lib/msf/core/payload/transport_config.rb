@@ -34,6 +34,17 @@ module Msf::Payload::TransportConfig
     }.merge(timeout_config(opts))
   end
 
+  def transport_config_reverse_dns(opts={})
+    ds = opts[:datastore] || datastore
+    {
+      scheme:     'dns',
+      lhost:      ds['DOMAIN'],
+      req_type:   ds['REQ_TYPE'],
+      nhost:      ds['NS_IP'],
+      server_id:  ds['SERVER_ID']
+    }.merge(timeout_config(opts))
+  end
+  
   def transport_config_reverse_https(opts={})
     ds = opts[:datastore] || datastore
     config = transport_config_reverse_http(opts)
@@ -42,7 +53,7 @@ module Msf::Payload::TransportConfig
                                                ds['HandlerSSLCert'])
     config
   end
-
+  
   def transport_config_reverse_http(opts={})
     # most cases we'll have a URI already, but in case we don't
     # we should ask for a connect to happen given that this is

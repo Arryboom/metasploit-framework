@@ -2775,6 +2775,16 @@ RSpec.describe 'modules/payloads', :content do
                           modules_pathname: modules_pathname,
                           reference_name: 'windows/meterpreter_reverse_http'
   end
+  
+  context 'windows/meterpreter_reverse_dns' do
+    it_should_behave_like 'payload cached size is consistent',
+                          ancestor_reference_names: [
+                            'singles/windows/meterpreter_reverse_dns'
+                          ],
+                          dynamic_size: false,
+                          modules_pathname: modules_pathname,
+                          reference_name: 'windows/meterpreter_reverse_dns'
+  end
 
   context 'windows/meterpreter_reverse_https' do
     it_should_behave_like 'payload cached size is consistent',
@@ -2848,6 +2858,17 @@ RSpec.describe 'modules/payloads', :content do
                           dynamic_size: false,
                           modules_pathname: modules_pathname,
                           reference_name: 'windows/meterpreter/bind_tcp'
+  end
+  
+  context 'windows/meterpreter/reverse_dns' do
+    it_should_behave_like 'payload cached size is consistent',
+                          ancestor_reference_names: [
+                              'stagers/windows/reverse_dns',
+                              'stages/windows/meterpreter'
+                          ],
+                          dynamic_size: false,
+                          modules_pathname: modules_pathname,
+                          reference_name: 'windows/meterpreter/reverse_dns'
   end
 
   context 'windows/meterpreter/bind_tcp_rc4' do
@@ -3885,6 +3906,17 @@ RSpec.describe 'modules/payloads', :content do
                           modules_pathname: modules_pathname,
                           reference_name: 'windows/x64/meterpreter/bind_tcp'
   end
+  
+  context 'windows/x64/meterpreter/reverse_dns' do
+    it_should_behave_like 'payload cached size is consistent',
+                          ancestor_reference_names: [
+                              'stagers/windows/x64/reverse_dns',
+                              'stages/windows/x64/meterpreter'
+                          ],
+                          dynamic_size: false,
+                          modules_pathname: modules_pathname,
+                          reference_name: 'windows/x64/meterpreter/reverse_dns'
+  end
 
   context 'windows/x64/meterpreter/bind_tcp_uuid' do
     it_should_behave_like 'payload cached size is consistent',
@@ -4024,6 +4056,16 @@ RSpec.describe 'modules/payloads', :content do
                           reference_name: 'windows/x64/meterpreter_reverse_tcp'
   end
 
+  context 'windows/x64/meterpreter_reverse_dns' do
+    it_should_behave_like 'payload cached size is consistent',
+                          ancestor_reference_names: [
+                              'singles/windows/x64/meterpreter_reverse_dns'
+                          ],
+                          dynamic_size: false,
+                          modules_pathname: modules_pathname,
+                          reference_name: 'windows/x64/meterpreter_reverse_dns'
+  end
+  
   context 'windows/x64/powershell_bind_tcp' do
     it_should_behave_like 'payload cached size is consistent',
                           ancestor_reference_names: [
